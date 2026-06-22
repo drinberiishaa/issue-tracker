@@ -11,7 +11,7 @@
 
     if (!listContainer) return;
 
-    let currentTagId = listContainer.closest('body').querySelector('[data-active-tag]')?.dataset.activeTag || '';
+    let currentTagId = '';
 
     // Determine initial active tag from the button that's already highlighted server-side.
     tagButtons.forEach((btn) => {
