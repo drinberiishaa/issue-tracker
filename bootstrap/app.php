@@ -12,7 +12,7 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->web(append: [
-            // (none extra needed; Breeze auth scaffolding uses defaults)
+            // (no extra web middleware needed; auth scaffolding is hand-built, Breeze-style)
         ]);
 
         $middleware->redirectGuestsTo('/login');
