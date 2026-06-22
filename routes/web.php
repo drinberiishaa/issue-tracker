@@ -22,11 +22,23 @@ Route::get('/', function () {
     return redirect()->route('projects.index');
 });
 
-Route::resource('projects', ProjectController::class)->except(['create', 'store', 'edit', 'update', 'destroy']);
+Route::middleware('auth')->group(function () {
+    Route::get('projects/create', [ProjectController::class, 'create'])->name('projects.create');
+    Route::get('projects/{project}/edit', [ProjectController::class, 'edit'])->name('projects.edit');
+});
 
-// IMPORTANT: literal routes like this must be declared BEFORE the issues resource route,
-// otherwise Route::resource's GET /issues/{issue} would swallow "search" as an issue ID.
+Route::resource('projects', ProjectController::class)->only(['index', 'show']);
+
+// IMPORTANT: literal/static routes like these must be declared BEFORE the wildcard
+// GET /issues/{issue} (issues.show) route, otherwise that route would swallow paths
+// like "search/ajax" or "create" as if they were an issue ID.
 Route::get('issues/search/ajax', [IssueController::class, 'search'])->name('issues.search');
+
+Route::middleware('auth')->group(function () {
+    Route::get('issues/create', [IssueController::class, 'create'])->name('issues.create');
+    Route::get('issues/{issue}/edit', [IssueController::class, 'edit'])->name('issues.edit');
+});
+
 Route::resource('issues', IssueController::class)->only(['index', 'show']);
 Route::get('tags', [TagController::class, 'index'])->name('tags.index');
 
@@ -42,8 +54,8 @@ Route::get('issues/{issue}/comments', [CommentController::class, 'index'])->name
 */
 
 Route::middleware('auth')->group(function () {
-    Route::resource('projects', ProjectController::class)->only(['create', 'store', 'edit', 'update', 'destroy']);
-    Route::resource('issues', IssueController::class)->except(['index', 'show']);
+    Route::resource('projects', ProjectController::class)->only(['store', 'update', 'destroy']);
+    Route::resource('issues', IssueController::class)->only(['store', 'update', 'destroy']);
     Route::post('tags', [TagController::class, 'store'])->name('tags.store');
 
     // Attach/detach tags on an issue via AJAX.
