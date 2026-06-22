@@ -1,0 +1,8 @@
+/* Minimal custom styles. Tailwind (via CDN, see layouts/app.blade.php) handles most utility styling. */
+
+.line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}

@@ -20,6 +20,7 @@
             },
         }
     </script>
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <style>
         [x-cloak] { display: none !important; }
         .badge { display: inline-flex; align-items: center; padding: 0.125rem 0.625rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600; }
