@@ -23,8 +23,11 @@ Route::get('/', function () {
 });
 
 Route::resource('projects', ProjectController::class)->except(['create', 'store', 'edit', 'update', 'destroy']);
-Route::resource('issues', IssueController::class)->only(['index', 'show']);
+
+// IMPORTANT: literal routes like this must be declared BEFORE the issues resource route,
+// otherwise Route::resource's GET /issues/{issue} would swallow "search" as an issue ID.
 Route::get('issues/search/ajax', [IssueController::class, 'search'])->name('issues.search');
+Route::resource('issues', IssueController::class)->only(['index', 'show']);
 Route::get('tags', [TagController::class, 'index'])->name('tags.index');
 
 // Read-only comment listing (paginated AJAX) is open to anyone viewing an issue.
